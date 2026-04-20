@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tesis de Holding LATAM — Esquema de Análisis</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --p1: #1a515c;
+    --p2: #b6debb;
+    --p3: #62b9c7;
+    --s1: #a6a6a6;
+    --s2: #fffa9f;
+    --s3: #020d14;
+    --light: #e0f2f4;
+    --near-white: #f5f9fa;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--near-white);
+    color: var(--s3);
+    line-height: 1.5;
+    padding: 40px 20px;
+}
+.container { max-width: 1200px; margin: 0 auto; }
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, var(--p1) 0%, var(--s3) 100%);
+    color: white;
+    padding: 48px 56px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+.header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--p3) 0%, transparent 70%);
+    opacity: 0.2;
+}
+.header-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--p3);
+    font-weight: 600;
+    margin-bottom: 16px;
+    position: relative;
+}
+.header h1 {
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    position: relative;
+}
+.header p {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.85);
+    max-width: 720px;
+    position: relative;
+}
+
+/* Sections */
+.section {
+    background: white;
+    border-radius: 12px;
+    padding: 40px 48px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 8px rgba(2,13,20,0.04);
+}
+.section-number {
+    display: inline-block;
+    background: var(--p1);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 32px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 12px;
+}
+.section-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--p1);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+.section-subtitle {
+    font-size: 15px;
+    color: var(--s1);
+    margin-bottom: 32px;
+    margin-left: 44px;
+}
+
+/* Flywheel */
+.flywheel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+.flywheel {
+    position: relative;
+    width: 560px;
+    height: 560px;
+}
+.flywheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(135deg, var(--p1), var(--p3));
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(26,81,92,0.25);
+    z-index: 2;
+}
+.flywheel-center-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 6px;
+}
+.flywheel-center-title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+.fw-node {
+    position: absolute;
+    width: 140px;
+    text-align: center;
+    background: white;
+    border: 2px solid var(--p3);
+    border-radius: 12px;
+    padding: 14px 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.fw-node-num {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--p3);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 24px;
+}
+.fw-node-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--p1);
+    line-height: 1.2;
+}
+.fw-node:nth-child(2) { top: 0; left: 50%; transform: translateX(-50%); }
+.fw-node:nth-child(3) { top: 18%; right: 0; }
+.fw-node:nth-child(4) { bottom: 18%; right: 0; }
+.fw-node:nth-child(5) { bottom: 0; left: 50%; transform: translateX(-50%); }
+.fw-node:nth-child(6) { bottom: 18%; left: 0; }
+.fw-node:nth-child(7) { top: 18%; left: 0; }
+
+/* SVG arrows overlay */
+.flywheel svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Architecture / Holding */
+.holding {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.holding-top {
+    background: var(--p1);
+    color: white;
+    padding: 24px 32px;
+    border-radius: 10px;
+    text-align: center;
+}
+.holding-top-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 6px;
+}
+.holding-top-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.holding-top-desc {
+    font-size: 13px;
+    opacity: 0.85;
+}
+.holding-connector {
+    height: 28px;
+    width: 2px;
+    background: var(--s1);
+    margin: 0 auto;
+}
+.layer-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--p3);
+    font-weight: 700;
+    text-align: center;
+    margin: 4px 0;
+}
+.layer {
+    display: grid;
+    gap: 12px;
+}
+.layer-3 { grid-template-columns: repeat(3, 1fr); }
+.layer-2 { grid-template-columns: repeat(2, 1fr); max-width: 720px; margin: 0 auto; width: 100%; }
+
+.unit {
+    background: white;
+    border: 2px solid var(--light);
+    border-radius: 10px;
+    padding: 20px;
+    transition: all 0.2s;
+}
+.unit-operating { border-left: 5px solid var(--p3); }
+.unit-distribution { border-left: 5px solid var(--s2); background: linear-gradient(to right, #fffef5, white); }
+.unit-allocation { border-left: 5px solid var(--p1); }
+
+.unit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+.unit-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--p1);
+}
+.unit-tag {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: var(--light);
+    color: var(--p1);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.unit-role {
+    font-size: 12px;
+    color: var(--s1);
+    margin-bottom: 12px;
+    font-style: italic;
+}
+.unit-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 12px;
+    border-top: 1px solid var(--light);
+}
+.metric {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+.metric-label { color: var(--s1); }
+.metric-value { color: var(--s3); font-weight: 600; }
+
+/* Capital flow */
+.flow-viz {
+    background: var(--near-white);
+    border-radius: 10px;
+    padding: 32px;
+    margin-top: 24px;
+}
+.flow-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+.flow-row:last-child { margin-bottom: 0; }
+.flow-box {
+    background: white;
+    border: 1.5px solid var(--p3);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+}
+.flow-box-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--p1);
+    margin-bottom: 4px;
+}
+.flow-box-sub {
+    font-size: 11px;
+    color: var(--s1);
+}
+.flow-arrow {
+    font-size: 24px;
+    color: var(--p3);
+    font-weight: 300;
+    text-align: center;
+}
+
+/* Thesis box */
+.thesis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+}
+.thesis-card {
+    padding: 24px;
+    border-radius: 10px;
+    background: var(--near-white);
+    border-top: 4px solid var(--p3);
+}
+.thesis-card:nth-child(2) { border-top-color: var(--s2); }
+.thesis-card:nth-child(3) { border-top-color: var(--p1); }
+.thesis-card-stage {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--s1);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.thesis-card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--p1);
+    margin-bottom: 12px;
+}
+.thesis-card-desc {
+    font-size: 13px;
+    color: var(--s3);
+    line-height: 1.5;
+}
+
+/* Risk / Analysis section (Sebastian's angle) */
+.analysis {
+    background: var(--s3);
+    color: white;
+    border-radius: 12px;
+    padding: 40px 48px;
+    margin-bottom: 32px;
+}
+.analysis-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--s2);
+}
+.analysis-subtitle {
+    font-size: 14px;
+    color: var(--s1);
+    margin-bottom: 28px;
+}
+.analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.analysis-block h4 {
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--p3);
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+.analysis-block ul {
+    list-style: none;
+}
+.analysis-block li {
+    padding: 8px 0;
+    padding-left: 20px;
+    position: relative;
+    font-size: 14px;
+    color: rgba(255,255,255,0.9);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.analysis-block li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 16px;
+    width: 8px;
+    height: 2px;
+    background: var(--p3);
+}
+.analysis-block.risks li::before { background: var(--s2); }
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 32px 0;
+    color: var(--s1);
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 900px) {
+    .layer-3, .thesis-grid, .analysis-grid { grid-template-columns: 1fr; }
+    .flywheel { width: 380px; height: 380px; }
+    .flywheel-center { width: 140px; height: 140px; }
+    .fw-node { width: 110px; padding: 10px 6px; }
+    .fw-node-label { font-size: 11px; }
+    .flow-row { grid-template-columns: 1fr; }
+    .flow-arrow { transform: rotate(90deg); }
+    .header { padding: 32px 24px; }
+    .header h1 { font-size: 28px; }
+    .section { padding: 28px 24px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-label">Tesis de inversión — Análisis esquemático</div>
+    <h1>Holding de capital allocation LATAM</h1>
+    <p>"Berkshire Hathaway latinoamericano": plataforma que combina negocios operativos rentables, distribución masiva y reputación como motor de deal flow, con una capa central de asignación de capital.</p>
+</div>
+
+<!-- SECCIÓN 1: FLYWHEEL -->
+<div class="section">
+    <div class="section-title"><span class="section-number">1</span>El flywheel — corazón de la tesis</div>
+    <div class="section-subtitle">El mecanismo que hace que cada vuelta del sistema sea más barata y más rentable que la anterior.</div>
+
+    <div class="flywheel-container">
+        <div class="flywheel">
+            <svg viewBox="0 0 560 560">
+                <defs>
+                    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                        <path d="M0,0 L10,5 L0,10 z" fill="#62b9c7"/>
+                    </marker>
+                </defs>
+                <!-- Circular arrows connecting nodes clockwise -->
+                <path d="M 340,70 A 220,220 0 0 1 490,220" stroke="#62b9c7" stroke-width="2" fill="none" marker-end="url(#arr)" opacity="0.5"/>
+                <path d="M 490,340 A 220,220 0 0 1 340,490" stroke="#62b9c7" stroke-width="2" fill="none" marker-end="url(#arr)" opacity="0.5"/>
+                <path d="M 220,490 A 220,220 0 0 1 70,340" stroke="#62b9c7" stroke-width="2" fill="none" marker-end="url(#arr)" opacity="0.5"/>
+                <path d="M 70,220 A 220,220 0 0 1 220,70" stroke="#62b9c7" stroke-width="2" fill="none" marker-end="url(#arr)" opacity="0.5"/>
+            </svg>
+
+            <div class="flywheel-center">
+                <div class="flywheel-center-label">Compound Interest</div>
+                <div class="flywheel-center-title">Flywheel<br>Central</div>
+            </div>
+
+            <div class="fw-node">
+                <div class="fw-node-num">1</div>
+                <div class="fw-node-label">Media &<br>Audiencia</div>
+            </div>
+            <div class="fw-node">
+                <div class="fw-node-num">2</div>
+                <div class="fw-node-label">Reputación<br>& Marca</div>
+            </div>
+            <div class="fw-node">
+                <div class="fw-node-num">3</div>
+                <div class="fw-node-label">Deal Flow<br>& Sourcing</div>
+            </div>
+            <div class="fw-node">
+                <div class="fw-node-num">4</div>
+                <div class="fw-node-label">Inversión<br>& Capital</div>
+            </div>
+            <div class="fw-node">
+                <div class="fw-node-num">5</div>
+                <div class="fw-node-label">Retornos<br>Operativos</div>
+            </div>
+            <div class="fw-node">
+                <div class="fw-node-num">6</div>
+                <div class="fw-node-label">Más LPs<br>& Sponsors</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECCIÓN 2: ARQUITECTURA DEL HOLDING -->
+<div class="section">
+    <div class="section-title"><span class="section-number">2</span>Arquitectura del ecosistema</div>
+    <div class="section-subtitle">Tres capas: operación (genera caja) → distribución (amplifica acceso) → allocation (reinvierte).</div>
+
+    <div class="holding">
+        <div class="holding-top">
+            <div class="holding-top-label">Holding — Tesis de largo plazo</div>
+            <div class="holding-top-title">Plataforma de capital allocation LATAM</div>
+            <div class="holding-top-desc">Path to IPO → capital permanente → compounding a escala</div>
+        </div>
+
+        <div class="holding-connector"></div>
+
+        <div class="layer-label">Capa 1 — Capital Allocation</div>
+        <div class="layer layer-2">
+            <div class="unit unit-allocation">
+                <div class="unit-header">
+                    <div class="unit-name">Ikalon</div>
+                    <div class="unit-tag">Platform</div>
+                </div>
+                <div class="unit-role">Brazo estructurador del holding</div>
+                <div class="unit-metrics">
+                    <div class="metric"><span class="metric-label">Función</span><span class="metric-value">Multifamily Office</span></div>
+                    <div class="metric"><span class="metric-label">Vehículos</span><span class="metric-value">SPVs · Coinversiones</span></div>
+                    <div class="metric"><span class="metric-label">Enfoque</span><span class="metric-value">Adquisiciones</span></div>
+                </div>
+            </div>
+            <div class="unit unit-allocation">
+                <div class="unit-header">
+                    <div class="unit-name">Deal Room</div>
+                    <div class="unit-tag">Sourcing</div>
+                </div>
+                <div class="unit-role">Converter: audiencia → pipeline</div>
+                <div class="unit-metrics">
+                    <div class="metric"><span class="metric-label">Input</span><span class="metric-value">Audiencia + marca</span></div>
+                    <div class="metric"><span class="metric-label">Output</span><span class="metric-value">Founders · Coinversiones</span></div>
+                    <div class="metric"><span class="metric-label">Ventaja</span><span class="metric-value">Acceso directo</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="holding-connector"></div>
+
+        <div class="layer-label">Capa 2 — Distribución & Reputación</div>
+        <div class="layer layer-2">
+            <div class="unit unit-distribution">
+                <div class="unit-header">
+                    <div class="unit-name">MPF Invest</div>
+                    <div class="unit-tag">Wealthtech</div>
+                </div>
+                <div class="unit-role">Motor de distribución a inversionistas</div>
+                <div class="unit-metrics">
+                    <div class="metric"><span class="metric-label">Usuarios</span><span class="metric-value">72,000</span></div>
+                    <div class="metric"><span class="metric-label">Rol en tesis</span><span class="metric-value">LP funnel</span></div>
+                </div>
+            </div>
+            <div class="unit unit-distribution">
+                <div class="unit-header">
+                    <div class="unit-name">El Primer Paso</div>
+                    <div class="unit-tag">Media</div>
+                </div>
+                <div class="unit-role">Motor de reputación y sourcing</div>
+                <div class="unit-metrics">
+                    <div class="metric"><span class="metric-label">Outputs</span><span class="metric-value">Audiencia · Sponsors</span></div>
+                    <div class="metric"><span class="metric-label">Rol en tesis</span><span class="metric-value">Top del funnel</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="holding-connector"></div>
+
+        <div class="layer-label">Capa 3 — Negocios Operativos (cash generators)</div>
+        <div class="layer layer-2">
+            <div class="unit unit-operating">
+                <div class="unit-header">
+                    <div class="unit-name">Sequon</div>
+                    <div class="unit-tag">Crypto MM</div>
+                </div>
+                <div class="unit-role">Market maker cripto institucional</div>
+                <div class="unit-metrics">
+                    <div class="metric"><span class="metric-label">AUM</span><span class="metric-value">~USD 60M</span></div>
+                    <div class="metric"><span class="metric-label">Utilidad pre-tax</span><span class="metric-value">~USD 5M/año</span></div>
+                </div>
+            </div>
+            <div class="unit unit-operating">
+                <div class="unit-header">
+                    <div class="unit-name">AloCredit</div>
+                    <div class="unit-tag">Crédito</div>
+                </div>
+                <div class="unit-role">Crédito de consumo</div>
+                <div class="unit-metrics">
+                    <div class="metric"><span class="metric-label">Retorno</span><span class="metric-value">~30% E.A.</span></div>
+                    <div class="metric"><span class="metric-label">Capacidad</span><span class="metric-value">Absorbe más capital</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECCIÓN 3: FLUJO DE CAPITAL Y VALOR -->
+<div class="section">
+    <div class="section-title"><span class="section-number">3</span>Cómo fluye el capital entre las piezas</div>
+    <div class="section-subtitle">La lógica económica: caja generada abajo → reinvertida arriba → oportunidades nuevas detectadas al centro.</div>
+
+    <div class="flow-viz">
+        <div class="flow-row">
+            <div class="flow-box">
+                <div class="flow-box-title">Sequon + AloCredit</div>
+                <div class="flow-box-sub">Generan caja recurrente</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">
+                <div class="flow-box-title">Ikalon</div>
+                <div class="flow-box-sub">Recibe y reasigna capital</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">
+                <div class="flow-box-title">Nuevas adquisiciones</div>
+                <div class="flow-box-sub">SPVs · Coinversiones</div>
+            </div>
+        </div>
+        <div class="flow-row">
+            <div class="flow-box">
+                <div class="flow-box-title">El Primer Paso</div>
+                <div class="flow-box-sub">Audiencia + reputación</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">
+                <div class="flow-box-title">Deal Room + MPF</div>
+                <div class="flow-box-sub">Pipeline + LP funnel</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">
+                <div class="flow-box-title">Oportunidades</div>
+                <div class="flow-box-sub">Mejor sourcing y tickets</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECCIÓN 4: TESIS DE LARGO PLAZO -->
+<div class="section">
+    <div class="section-title"><span class="section-number">4</span>Tesis de valor — tres horizontes</div>
+    <div class="section-subtitle">Cómo evoluciona la valoración en el tiempo bajo la lógica de compounding empresarial.</div>
+
+    <div class="thesis-grid">
+        <div class="thesis-card">
+            <div class="thesis-card-stage">Horizonte 1 — Hoy</div>
+            <div class="thesis-card-title">Portafolio de activos</div>
+            <div class="thesis-card-desc">Conjunto de negocios rentables independientes, con sinergias iniciales entre audiencia, distribución y operación. Se valoran individualmente por múltiplos de utilidad.</div>
+        </div>
+        <div class="thesis-card">
+            <div class="thesis-card-stage">Horizonte 2 — Consolidación</div>
+            <div class="thesis-card-title">Holding institucional</div>
+            <div class="thesis-card-desc">Estructura societaria única, governance formal, reporting consolidado. El flywheel empieza a mostrar efectos medibles: costo de adquisición de LPs baja, deal flow propietario sube.</div>
+        </div>
+        <div class="thesis-card">
+            <div class="thesis-card-stage">Horizonte 3 — IPO</div>
+            <div class="thesis-card-title">Capital permanente</div>
+            <div class="thesis-card-desc">Listado en bolsa que permite capital permanente, moneda de adquisición (acciones del holding) y acceso a compounding a escala — la premisa estructural del modelo Berkshire.</div>
+        </div>
+    </div>
+</div>
+
+<!-- SECCIÓN 5: TU ÁNGULO DE ANÁLISIS -->
+<div class="analysis">
+    <div class="analysis-title">Lectura crítica — puntos a estresar antes de invertir</div>
+    <div class="analysis-subtitle">El esquema es coherente, pero la tesis tiene fortalezas reales y supuestos que vale la pena desafiar antes de comprometer capital.</div>
+
+    <div class="analysis-grid">
+        <div class="analysis-block">
+            <h4>Fortalezas de la tesis</h4>
+            <ul>
+                <li>Dos cash generators concretos con números verificables (Sequon ~USD 5M utilidad, AloCredit ~30% E.A.)</li>
+                <li>Activo distintivo real: audiencia de "El Primer Paso" es difícil de replicar y genera ventaja de sourcing</li>
+                <li>Distribución ya construida: 72,000 usuarios en MPF reducen costo de captación de LPs</li>
+                <li>El modelo Berkshire está validado; el debate es ejecución, no concepto</li>
+            </ul>
+        </div>
+        <div class="analysis-block risks">
+            <h4>Supuestos a estresar</h4>
+            <ul>
+                <li>El flywheel es una narrativa. ¿Cuál es la métrica concreta que prueba que ya gira? (CAC, conversión audiencia→LP, % deal flow propietario)</li>
+                <li>Sequon y AloCredit son verticales muy distintos. ¿Hay sinergias reales o son cash generators no correlacionados con el resto?</li>
+                <li>Gobierno corporativo y estructura societaria: ¿cómo se consolida legalmente el holding? ¿Qué clase de acción, qué derechos económicos y políticos?</li>
+                <li>Riesgo de ejecución LATAM: regulación cripto, ciclo de crédito de consumo, dependencia de figura pública para la marca</li>
+                <li>Path to IPO en LATAM: realista pero largo. ¿Cuál es el timeline, el mercado objetivo (Colombia, NYSE, Nasdaq) y los hitos intermedios?</li>
+                <li>Valoración de entrada: ¿sobre qué se te invita a invertir — el holding, una unidad, o el SPV de Ikalon?</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="footer">ESQUEMA DE ANÁLISIS · DOCUMENTO DE TRABAJO · USO INTERNO</div>
+
+</div>
+</body>
+</html>
